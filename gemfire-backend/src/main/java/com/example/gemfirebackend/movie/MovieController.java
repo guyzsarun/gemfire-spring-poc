@@ -1,5 +1,6 @@
 package com.example.gemfirebackend.movie;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -25,15 +26,21 @@ public class MovieController {
     {
         long start = System.currentTimeMillis();
 
-        movieService.getAllData(name);
+        JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
 
         long delay = System.currentTimeMillis() - start;
 
         System.out.printf("Backend API Requested Time : %dms %n",delay);
 
-        JSONObject entities = new JSONObject();
-        entities.put("delay(ms)",delay);
+        jsonObject.put("delay(ms)",delay);
 
-        return entities.toMap();
+
+        if( jsonObject.has("d")){
+            JSONArray array= (JSONArray) jsonObject.get("d");
+            System.out.print(array.length());
+        }
+        return jsonObject.toMap();
+
+
     }
 }

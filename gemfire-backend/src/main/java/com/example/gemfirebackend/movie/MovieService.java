@@ -1,6 +1,7 @@
 package com.example.gemfirebackend.movie;
 
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
@@ -38,8 +39,8 @@ public class MovieService {
                 String.class,
                 key
                 );
-        System.out.println(result);
-        return result.toString();
+
+        return result.getBody();
     }
 }
 
