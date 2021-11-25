@@ -1,11 +1,17 @@
 package com.example.gemfirebackend.movie;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URISyntaxException;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/movie")
@@ -15,8 +21,19 @@ public class MovieController {
     MovieService movieService;
 
     @GetMapping
-    public String getMovie() throws URISyntaxException {
-        movieService.getAllData("test");
-        return "200";
+    public Map<String, Object> getMovie(@RequestParam(value = "name", required = false , defaultValue = "") String name)
+    {
+        long start = System.currentTimeMillis();
+
+        movieService.getAllData(name);
+
+        long delay = System.currentTimeMillis() - start;
+
+        System.out.printf("Backend API Requested Time : %dms %n",delay);
+
+        JSONObject entities = new JSONObject();
+        entities.put("delay(ms)",delay);
+
+        return entities.toMap();
     }
 }

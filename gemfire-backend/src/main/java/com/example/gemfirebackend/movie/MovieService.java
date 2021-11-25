@@ -2,6 +2,7 @@ package com.example.gemfirebackend.movie;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -18,8 +19,8 @@ public class MovieService {
     @Autowired
     private Environment env;
 
-
-    public void getAllData(String name) {
+    @Cacheable("movie")
+    public String getAllData(String key) {
         String url = "https://imdb8.p.rapidapi.com/auto-complete?q={q}";
 
         HttpHeaders headers = new HttpHeaders();
@@ -35,10 +36,10 @@ public class MovieService {
                 HttpMethod.GET,
                 request,
                 String.class,
-                name
+                key
                 );
         System.out.println(result);
-
+        return result.toString();
     }
 }
 
