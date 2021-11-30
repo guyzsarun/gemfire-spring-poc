@@ -30,12 +30,14 @@ public class MovieController {
         long start = System.currentTimeMillis();
 
         JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
+        JSONObject response = new JSONObject();
 
         long delay = System.currentTimeMillis() - start;
 
         logger.info("Backend API Requested Time : {} ms",delay);
 
-        jsonObject.put("delay(ms)",delay);
+        response.put("delay(ms)",delay);
+        JSONArray movieList= new JSONArray();
         if( jsonObject.has("d")){
             JSONArray array= (JSONArray) jsonObject.get("d");
             for(Object o: array){
@@ -46,13 +48,16 @@ public class MovieController {
                             object.has("y") ?  object.get("y").toString() : "-",
                             object.has("rank") ?  object.get("rank").toString() : "-",
                             (String) object.get("id"),
-                            (String)object.getJSONObject("i").get("imageUrl")
+                            object.has("i") ?  (String)object.getJSONObject("i").get("imageUrl") : "-"
                     );
-                    System.out.println(movie.toString());
+                    //logger.info(movie.toString());
+                    movieList.put(movie);
                 }
+
             }
         }
-        return jsonObject.toMap();
+        response.put("movie",movieList);
+        return response.toMap();
 
 
     }
