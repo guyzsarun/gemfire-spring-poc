@@ -2,30 +2,47 @@ package com.example.gemfirebackend.movie;
 
 public class Movie {
     private String title;
-    private int year;
-    private int rank;
+    private String year;
+    private String rank;
     private String id;
+    private String poster;
 
-    public Movie(String title,int year,int rank,String id){
+    public Movie(String title,String year,String rank,String id,String poster){
         this.id=id;
         this.rank=rank;
         this.title=title;
         this.year=year;
+        this.poster=poster;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getYear() {
+    public String getPoster() {
+        return poster;
+    }
+
+    public String getYear() {
         return year;
     }
 
-    public int getRank() {
+    public String getRank() {
         return rank;
     }
 
     public String getId() {
         return id;
+    }
+
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", rank='" + rank + '\'' +
+                ", year=" + year + '\n' +
+                ", poster=" + poster +
+                '}';
     }
 }
