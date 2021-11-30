@@ -1,6 +1,9 @@
 package com.example.gemfirebackend.movie;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "api/movie")
 public class MovieController {
+    Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     @Autowired
     MovieService movieService;
@@ -25,15 +29,36 @@ public class MovieController {
     {
         long start = System.currentTimeMillis();
 
-        movieService.getAllData(name);
+        JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
+        JSONObject response = new JSONObject();
 
         long delay = System.currentTimeMillis() - start;
 
-        System.out.printf("Backend API Requested Time : %dms %n",delay);
+        logger.info("Backend API Requested Time : {} ms",delay);
 
-        JSONObject entities = new JSONObject();
-        entities.put("delay(ms)",delay);
+        response.put("delay(ms)",delay);
+        JSONArray movieList= new JSONArray();
+        if( jsonObject.has("d")){
+            JSONArray array= (JSONArray) jsonObject.get("d");
+            for(Object o: array){
+                if ( o instanceof JSONObject ) {
+                    JSONObject object = (JSONObject) o;
+                    Movie movie = new Movie(
+                            (String) object.get("l"),
+                            object.has("y") ?  object.get("y").toString() : "-",
+                            object.has("rank") ?  object.get("rank").toString() : "-",
+                            (String) object.get("id"),
+                            object.has("i") ?  (String)object.getJSONObject("i").get("imageUrl") : "-"
+                    );
+                    //logger.info(movie.toString());
+                    movieList.put(movie);
+                }
 
-        return entities.toMap();
+            }
+        }
+        response.put("movie",movieList);
+        return response.toMap();
+
+
     }
 }
