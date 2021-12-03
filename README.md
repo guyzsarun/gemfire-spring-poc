@@ -16,14 +16,14 @@ api.rapid.host=
 api.rapid.key=
 ```
 
-### API
+## API
 
 SpringBoot backend available at http://localhost:8081/api/movie <br>
 Swagger documentation available at http://localhost:8081/docs.html
 
-## Example Response
+### Example Response
 
-### Request
+#### Request
 
 `GET /api/movie/`
 
@@ -31,7 +31,7 @@ Swagger documentation available at http://localhost:8081/docs.html
 curl --location --request GET 'localhost:8081/api/movie?name=avatar'
 ```
 
-### Response
+#### Response
 
 ```yaml
 {
