@@ -25,7 +25,7 @@ Swagger documentation available at http://localhost:8081/docs.html
 
 ### Request
 
-`GET /apimovie/`
+`GET /api/movie/`
 
 ```sh
 curl --location --request GET 'localhost:8081/api/movie?name=avatar'
