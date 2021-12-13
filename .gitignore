@@ -26,3 +26,5 @@ hs_err_pid*
 *application.properties
 
 *secret.yaml
+
+gemfire-operator
