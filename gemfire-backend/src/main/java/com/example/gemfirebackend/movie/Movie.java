@@ -35,8 +35,8 @@ public class Movie {
         return id;
     }
 
-    @java.lang.Override
-    public java.lang.String toString() {
+    @Override
+    public String toString() {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +

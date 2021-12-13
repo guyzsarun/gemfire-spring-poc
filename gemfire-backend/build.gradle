@@ -1,0 +1,40 @@
+/*
+ * Copyright 2019 - 2021. VMware, Inc.
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+plugins {
+    id 'org.springframework.boot' version '2.4.1'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+}
+
+group = 'com.example.gemfirebackend'
+version = 'latest'
+sourceCompatibility = '1.8'
+
+bootBuildImage{
+    imageName = "docker.io/guyzsarun/gemfire-springboot:${project.version}"
+}
+
+repositories {
+    mavenCentral()
+
+}
+
+ext {
+    set('springGeodeVersion', "1.4.0")
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.geode:spring-geode-starter'
+    implementation 'org.json:json:20171018'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.5.12'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.geode:spring-geode-bom:${springGeodeVersion}"
+    }
+}

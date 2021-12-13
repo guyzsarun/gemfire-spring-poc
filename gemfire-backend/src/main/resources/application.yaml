@@ -1,0 +1,20 @@
+spring:
+  data:
+    gemfire:
+      pool:
+        locators: localhost[10334]
+      management:
+        http:
+          host: localhost
+---
+spring:
+  data:
+    gemfire:
+      pool:
+        locators: tanzu-gemfire-cluster-locator-0.tanzu-gemfire-cluster-locator.gemfire-cluster[10334]
+      management:
+        http:
+          host: tanzu-gemfire-cluster-locator-0.tanzu-gemfire-cluster-locator.gemfire-cluster
+  config:
+    activate:
+      on-profile: k8s

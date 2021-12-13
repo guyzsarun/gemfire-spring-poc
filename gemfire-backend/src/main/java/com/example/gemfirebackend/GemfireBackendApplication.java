@@ -9,7 +9,6 @@ import org.springframework.geode.config.annotation.EnableClusterAware;
 @EnableClusterAware
 @SpringBootApplication
 public class GemfireBackendApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(GemfireBackendApplication.class, args);
 	}
