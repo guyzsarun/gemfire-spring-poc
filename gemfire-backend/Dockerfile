@@ -1,15 +1,16 @@
-FROM maven:3.8.4-jdk-11-slim AS MAVEN_BUILD
+FROM gradle:6.9.1-jdk11-alpine AS build
 
-COPY pom.xml /build/
-COPY src /build/src/
+COPY --chown=gradle:gradle . /home/gradle/src
 
-WORKDIR /build/
-RUN mvn package
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
 
-FROM openjdk:11.0-jre-slim
+FROM openjdk:8-jre-slim
+
+EXPOSE 8080
 
 WORKDIR /app
 
-COPY --from=MAVEN_BUILD /build/target/gemfire-backend-0.0.1-SNAPSHOT.jar /app/
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
 
-ENTRYPOINT ["java", "-jar", "gemfire-backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/app/spring-boot-application.jar"]
