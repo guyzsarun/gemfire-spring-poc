@@ -61,8 +61,8 @@ or Create secret and attach to Kubernetes Cluster (Refer to `example.movie-secre
 
 ## API
 
-SpringBoot backend available at http://localhost:8081/api/movie <br>
-Swagger documentation available at http://localhost:8081/docs.html
+SpringBoot backend available at http://localhost:8080/api/movie <br>
+Swagger documentation available at http://localhost:8080/docs.html
 
 ### Example Response
 
@@ -71,7 +71,7 @@ Swagger documentation available at http://localhost:8081/docs.html
 `GET /api/movie/`
 
 ```sh
-curl --location --request GET 'localhost:8081/api/movie?name=avatar'
+curl --location --request GET 'localhost:8080/api/movie?name=avatar'
 ```
 
 #### Response
