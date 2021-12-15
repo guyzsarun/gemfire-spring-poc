@@ -1,9 +1,9 @@
 resources:
   - name: gemfire-spring
     type: git
+    icon: github
     source:
       uri: https://github.com/guyzsarun/gemfire-spring-poc
-      branch: feature/concourse
 
 jobs:
   - name: test
@@ -12,7 +12,9 @@ jobs:
         trigger: true
       - task: gradle-test
         file: gemfire-spring/ci/tasks/gradle-test.yaml
-        config:
-          caches:
-            - path: $HOME/.gradle/caches/
-            - path: $HOME/.gradle/wrapper/
+  - name: docker-build
+    plan:
+      - get: gemfire-spring
+        trigger: true
+      - task: docker-build
+        file: gemfire-spring/ci/tasks/docker-build.yaml
