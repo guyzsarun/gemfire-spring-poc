@@ -12,4 +12,4 @@ inputs:
 
 run:
   path: "gradle"
-  args: ["clean", "test"]
+  args: ["build"]
