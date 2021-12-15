@@ -1,0 +1,14 @@
+resources:
+  - name: gemfire-spring
+    type: git
+    source:
+      uri: https://github.com/guyzsarun/gemfire-spring-poc
+      branch: feature/concourse
+
+jobs:
+  - name: test
+    plan:
+      - get: gemfire-spring
+        trigger: true
+      - task: gradle-test
+        file: gemfire-spring/ci/tasks/gradle-test.yaml
