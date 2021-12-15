@@ -12,3 +12,7 @@ jobs:
         trigger: true
       - task: gradle-test
         file: gemfire-spring/ci/tasks/gradle-test.yaml
+        config:
+          caches:
+            - path: $HOME/.gradle/caches/
+            - path: $HOME/.gradle/wrapper/

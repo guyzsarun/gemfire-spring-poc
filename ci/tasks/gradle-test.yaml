@@ -11,5 +11,5 @@ inputs:
   - name: gemfire-spring
 
 run:
-  path: "gradle"
-  args: ["build"]
+  path: "/bin/sh"
+  args: ["gradle", "cleanTest", "test"]
