@@ -15,6 +15,7 @@ jobs:
   - name: docker-build
     plan:
       - get: gemfire-spring
+        passed: [test]
         trigger: true
       - task: docker-build
         file: gemfire-spring/ci/tasks/docker-build.yaml
