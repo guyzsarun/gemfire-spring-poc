@@ -12,4 +12,7 @@ inputs:
 
 run:
   path: "/bin/sh"
-  args: ["gradle", "cleanTest", "test"]
+  args:
+    - -c
+    - |
+      gradle cleanTest test
