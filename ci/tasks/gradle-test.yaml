@@ -15,4 +15,5 @@ run:
   args:
     - -c
     - |
+      cd gemfire-spring/gemfire-backend
       gradle cleanTest test
