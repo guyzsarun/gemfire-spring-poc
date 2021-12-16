@@ -1,13 +1,10 @@
 platform: linux
 
-image_resource:
-  type: docker-image
-  source:
-    repository: gradle
-    tag: 6.9.1-jdk11-alpine
+image: gradle-image
 
 inputs:
   - name: gemfire-spring
+  - name: gradle-image
 
 caches:
   - path: $HOME/.gradle/caches/
