@@ -12,8 +12,12 @@ inputs:
 outputs:
   - name: image
 
+caches:
+  - path: cache
+
 params:
   CONTEXT: gemfire-spring/gemfire-backend
+  IMAGE_ARG_base_image: gradle-image/image.tar
 
 run:
   path: build
