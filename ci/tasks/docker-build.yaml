@@ -1,0 +1,25 @@
+platform: linux
+
+image_resource:
+  type: registry-image
+  source:
+    repository: vito/oci-build-task
+
+inputs:
+  - name: gemfire-spring
+  - name: gradle-image
+  - name: openjdk-image
+
+outputs:
+  - name: image
+
+caches:
+  - path: cache
+
+params:
+  CONTEXT: gemfire-spring/gemfire-backend
+  IMAGE_ARG_base_image: gradle-image/image.tar
+  IMAGE_ARG_runtime: openjdk-image/image.tar
+
+run:
+  path: build

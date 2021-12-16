@@ -1,0 +1,66 @@
+docker_credentials: &docker_credentials
+  username: ((credentials.docker.username))
+  password: ((credentials.docker.password))
+
+registry-image: &registry-image
+  icon: docker
+  type: registry-image
+
+resources:
+  - name: gemfire-spring
+    type: git
+    icon: github
+    source:
+      uri: https://github.com/guyzsarun/gemfire-spring-poc
+
+  - name: gemfire-springboot-image
+    <<: *registry-image
+    source:
+      <<: *docker_credentials
+      repository: guyzsarun/gemfire-springboot
+      tag: latest
+
+  - name: gradle-image
+    <<: *registry-image
+    source:
+      <<: *docker_credentials
+      repository: gradle
+      tag: ((version.gradle))
+
+  - name: openjdk-image
+    <<: *registry-image
+    source:
+      <<: *docker_credentials
+      repository: openjdk
+      tag: ((version.openjdk))
+
+jobs:
+  - name: test
+    plan:
+      - in_parallel:
+          - get: gemfire-spring
+            trigger: true
+          - get: gradle-image
+            trigger: true
+      - task: gradle-test
+        image: gradle-image
+        file: gemfire-spring/ci/tasks/gradle-test.yaml
+
+  - name: docker-build
+    plan:
+      - in_parallel:
+          - get: gemfire-spring
+            passed: [test]
+            trigger: true
+          - get: gradle-image
+            trigger: true
+            params: { format: oci }
+          - get: openjdk-image
+            trigger: true
+            params: { format: oci }
+      - task: docker-build
+        privileged: true
+        file: gemfire-spring/ci/tasks/docker-build.yaml
+
+      - put: gemfire-springboot-image
+        params: { image: image/image.tar }

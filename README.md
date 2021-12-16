@@ -3,6 +3,7 @@
 ## Project Structure
 
     .
+    ├── ci                            # Concourse CI Configuration
     ├── gemfire-backend               # SpringBoot Application
     ├── gemfire-cluster               # Gemfire Cluster on Kubernetes
     ├── k8s                           # Kubernetes Cluster Configuration
@@ -90,4 +91,12 @@ curl --location --request GET 'localhost:8080/api/movie?name=avatar'
     ],
   "delay(ms)": 10,
 }
+```
+
+## Concourse CI
+
+Update docker credentials in `ci/settings.yaml`
+
+```sh
+fly -t gemfire-spring set-pipeline --pipeline {pipeline-name} --config ./ci/pipeline.yaml -l ./ci/settings.yaml
 ```

@@ -1,11 +1,14 @@
-FROM gradle:6.9.1-jdk11-alpine AS build
+ARG base_image=gradle:6.9.1-jdk11-alpine
+ARG runtime=openjdk:8-jre-slim
+
+FROM ${base_image} AS build
 
 COPY --chown=gradle:gradle . /home/gradle/src
 
 WORKDIR /home/gradle/src
 RUN gradle build --no-daemon
 
-FROM openjdk:8-jre-slim
+FROM ${runtime}
 
 EXPOSE 8080
 

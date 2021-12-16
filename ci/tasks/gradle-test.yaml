@@ -1,0 +1,17 @@
+platform: linux
+
+inputs:
+  - name: gemfire-spring
+  - name: gradle-image
+
+caches:
+  - path: $HOME/.gradle/caches/
+  - path: $HOME/.gradle/wrapper/
+
+run:
+  path: "/bin/sh"
+  args:
+    - -c
+    - |
+      cd gemfire-spring/gemfire-backend
+      gradle cleanTest test
