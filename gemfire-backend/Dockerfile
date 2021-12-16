@@ -1,7 +1,7 @@
-ARG base_image=gradle:6.9.1-jdk11-alpine
+ARG base-image=gradle:6.9.1-jdk11-alpine
 ARG runtime=openjdk:8-jre-slim
-FROM ${base_image} AS build
 
+FROM ${base-image} AS build
 
 COPY --chown=gradle:gradle . /home/gradle/src
 

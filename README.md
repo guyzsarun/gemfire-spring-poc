@@ -3,6 +3,7 @@
 ## Project Structure
 
     .
+    ├── ci                            # Concourse CI Configuration
     ├── gemfire-backend               # SpringBoot Application
     ├── gemfire-cluster               # Gemfire Cluster on Kubernetes
     ├── k8s                           # Kubernetes Cluster Configuration
