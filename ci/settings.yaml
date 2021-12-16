@@ -1,0 +1,8 @@
+version:
+  openjdk: 8-jre-slim
+  gradle: 6.9.1-jdk11-alpine
+
+credentials:
+  docker:
+    username: $DOCKER_USERNAME
+    password: $DOCKER_PASSWORD
