@@ -8,6 +8,7 @@ image_resource:
 inputs:
   - name: gemfire-spring
   - name: gradle-image
+  - name: openjdk-image
 
 outputs:
   - name: image
@@ -18,6 +19,7 @@ caches:
 params:
   CONTEXT: gemfire-spring/gemfire-backend
   IMAGE_ARG_base_image: gradle-image/image.tar
+  IMAGE_ARG_runtime: openjdk-image/image.tar
 
 run:
   path: build
