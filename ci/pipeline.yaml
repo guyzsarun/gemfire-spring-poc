@@ -12,7 +12,6 @@ resources:
     icon: github
     source:
       uri: https://github.com/guyzsarun/gemfire-spring-poc
-      branch: feature/concourse
 
   - name: gemfire-springboot-image
     <<: *registry-image
