@@ -1,7 +1,5 @@
 platform: linux
 
-image: gradle-image
-
 inputs:
   - name: gemfire-spring
   - name: gradle-image
