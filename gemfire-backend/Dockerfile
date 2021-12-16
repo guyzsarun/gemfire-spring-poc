@@ -1,4 +1,6 @@
-FROM gradle:6.9.1-jdk11-alpine AS build
+ARG base_image=gradle:6.9.1-jdk11-alpine
+FROM ${base_image} AS build
+
 
 COPY --chown=gradle:gradle . /home/gradle/src
 
