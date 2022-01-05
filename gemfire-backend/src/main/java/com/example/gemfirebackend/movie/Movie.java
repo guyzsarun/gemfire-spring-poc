@@ -1,5 +1,10 @@
 package com.example.gemfirebackend.movie;
 
+import org.springframework.beans.factory.annotation.Value;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class Movie {
     private String title;
     private String year;
@@ -7,13 +12,19 @@ public class Movie {
     private String id;
     private String poster;
 
-    public Movie(String title,String year,String rank,String id,String poster){
+    private String[] actor;
+
+    public Movie(String title,String year,String rank,String id,String poster,String actor){
         this.id=id;
         this.rank=rank;
         this.title=title;
         this.year=year;
         this.poster=poster;
+        this.actor= Arrays.stream(actor.split(","))
+                .map(String::trim)
+                .toArray(String[]::new);
     }
+
 
     public String getTitle() {
         return title;
@@ -35,11 +46,14 @@ public class Movie {
         return id;
     }
 
+    public String[] getActor(){return actor;}
+
     @Override
     public String toString() {
         return "Movie{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
+                ", actor='" + actor + '\n' +
                 ", rank='" + rank + '\'' +
                 ", year=" + year + '\n' +
                 ", poster=" + poster +
