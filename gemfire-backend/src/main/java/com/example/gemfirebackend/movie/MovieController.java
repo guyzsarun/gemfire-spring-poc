@@ -53,14 +53,14 @@ public class MovieController {
                     JSONObject object = (JSONObject) o;
 
 
-                    Movie movie = new Movie(
-                            (String) object.get("l"),
-                            object.has("y") ?  object.get("y").toString() : "-",
-                            object.has("rank") ?  object.get("rank").toString() : "-",
-                            (String) object.get("id"),
-                            object.has("i") ?  (String)object.getJSONObject("i").get("imageUrl") : "-",
-                            object.has("s") ? object.get("s").toString() : "-"
-                    );
+//                    Movie movie = new Movie(
+//                            (String) object.get("l"),
+//                            object.has("y") ?  object.get("y").toString() : "-",
+//                            object.has("rank") ?  object.get("rank").toString() : "-",
+//                            (String) object.get("id"),
+//                            object.has("i") ?  (String)object.getJSONObject("i").get("imageUrl") : "-",
+//                            object.has("s") ? object.get("s").toString() : "-"
+//                    );
                     //logger.info(movie.toString());
                     movieList.put(movie);
                 }

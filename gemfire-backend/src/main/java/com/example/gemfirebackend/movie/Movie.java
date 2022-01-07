@@ -6,47 +6,35 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Movie {
+    private String id;
     private String title;
     private String year;
-    private String rank;
-    private String id;
+    private String duration;
     private String poster;
+    private String rating;
+    private String imdbRating;
+    private String[] genres;
+    private String plot;
 
-    private String[] actor;
+    private Object[] cast;
 
-    public Movie(String title,String year,String rank,String id,String poster,String actor){
+    public Movie(String id,String title,String year,String duration,String poster,String rating, String imdbRating,String genres,String plot,Object[] cast ){
         this.id=id;
-        this.rank=rank;
         this.title=title;
         this.year=year;
+        this.duration=duration;
         this.poster=poster;
-        this.actor= Arrays.stream(actor.split(","))
-                .map(String::trim)
-                .toArray(String[]::new);
+        this.rating=rating;
+        this.imdbRating=imdbRating;
+        this.genres=genres;
+        this.plot=plot;
+
+        this.cast=cast;
+//        this.actor= Arrays.stream(actor.split(","))
+//                .map(String::trim)
+//                .toArray(String[]::new);
     }
 
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getPoster() {
-        return poster;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String[] getActor(){return actor;}
 
     @Override
     public String toString() {
