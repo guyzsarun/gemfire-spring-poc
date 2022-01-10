@@ -4,11 +4,8 @@ package com.example.gemfirebackend.movie;
 import com.example.gemfirebackend.cast.Cast;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,63 +20,23 @@ import java.util.List;
 
 @Service
 public class MovieService {
-    Logger logger = LoggerFactory.getLogger(MovieController.class);
 
     @Autowired
     private Environment env;
 
     @Cacheable("movie")
     public String getAllData(String key) {
-        long start = System.currentTimeMillis();
-
-        String url = "https://imdb8.p.rapidapi.com/title/find?q={q}";
-
-        HttpHeaders headers = new HttpHeaders();
-
-        headers.set("x-rapidapi-host",env.getProperty("api.rapid.host"));
-        headers.set("x-rapidapi-key",env.getProperty("api.rapid.key"));
-
-        HttpEntity request = new HttpEntity(headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> result = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                request,
-                String.class,
-                key
-                );
-
-        long delay = System.currentTimeMillis() - start;
-
-        logger.info("movie Backend API Requested Time : {} ms",delay);
-
-        return result.getBody();
+        return requestBuilder("find","q",key);
     }
 
     @Cacheable("plots")
-    public String getPlot(String key){
+    public String getPlot(String key) {
+        return requestBuilder("get-plots", "tconst", key);
+    }
 
-        String url = "https://imdb8.p.rapidapi.com/title/get-plots?tconst={q}";
-
-        HttpHeaders headers = new HttpHeaders();
-
-        headers.set("x-rapidapi-host",env.getProperty("api.rapid.host"));
-        headers.set("x-rapidapi-key",env.getProperty("api.rapid.key"));
-
-        HttpEntity request = new HttpEntity(headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> result = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                request,
-                String.class,
-                key
-        );
-
-
-        return result.getBody();
+    @Cacheable("ratings")
+    public String getRatings(String key){
+        return requestBuilder("get-ratings","tconst",key);
     }
 
     public Movie parseRequest(JSONObject movie){
@@ -112,6 +69,28 @@ public class MovieService {
         JSONObject jsonPlot = new JSONObject(plots);
 
         return jsonPlot.getJSONArray("plots").length()!=0? jsonPlot.getJSONArray("plots").getJSONObject(0).get("text").toString() : "";
+    }
+
+    public String requestBuilder(String path,String req,String key){
+        String url = "https://imdb8.p.rapidapi.com/title/"+path+"?"+req+"={q}";
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.set("x-rapidapi-host",env.getProperty("api.rapid.host"));
+        headers.set("x-rapidapi-key",env.getProperty("api.rapid.key"));
+
+        HttpEntity request = new HttpEntity(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> result = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                request,
+                String.class,
+                key
+        );
+
+        return result.getBody();
     }
 }
 
