@@ -1,50 +1,49 @@
 package com.example.gemfirebackend.movie;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.example.gemfirebackend.cast.Cast;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Movie {
-    private String id;
-    private String title;
-    private String year;
-    private String duration;
-    private String poster;
-    private String rating;
-    private String imdbRating;
-    private String[] genres;
-    private String plot;
+    public String id;
+    public String title;
+    public String year;
+    public String duration;
+    public String poster;
+    public String rating;
+    public String imdbRating;
+    public String[] genres;
+    public String plot;
 
-    private Object[] cast;
+    public List<Cast> cast;
 
-    public Movie(String id,String title,String year,String duration,String poster,String rating, String imdbRating,String genres,String plot,Object[] cast ){
+    public Movie(String id,String title,String year,String duration,String poster,List<Cast> cast ){
         this.id=id;
         this.title=title;
         this.year=year;
         this.duration=duration;
         this.poster=poster;
-        this.rating=rating;
-        this.imdbRating=imdbRating;
-        this.genres=genres;
-        this.plot=plot;
-
         this.cast=cast;
-//        this.actor= Arrays.stream(actor.split(","))
-//                .map(String::trim)
-//                .toArray(String[]::new);
     }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public void setPlot(String plot) {
+        this.plot = plot;
+    }
 
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", actor='" + actor + '\n' +
-                ", rank='" + rank + '\'' +
+                "id=" + id + '\n' +
+                ", title=" + title  + '\n' +
+                ", duration=" + duration + '\n' +
                 ", year=" + year + '\n' +
-                ", poster=" + poster +
-                '}';
+                ", poster=" + poster + '\n' +
+                ", plot=" + plot + '\n' +
+                ", cast=" + cast +
+                '}' + '\n';
     }
 }

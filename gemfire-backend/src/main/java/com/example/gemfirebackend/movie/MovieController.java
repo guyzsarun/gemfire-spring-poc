@@ -40,34 +40,31 @@ public class MovieController {
         JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
         JSONObject response = new JSONObject();
 
+        JSONArray movieList= new JSONArray();
+        if( jsonObject.has("results")){
+            JSONArray array= (JSONArray) jsonObject.get("results");
+            for(Object o: array){
+                if ( o instanceof JSONObject ) {
+
+                    Movie movie=movieService.parseRequest((JSONObject) o);
+                    movie.setPlot(movieService.parsePlots(movieService.getPlot(movie.getId())));
+
+
+                    logger.info(movie.toString());
+                    movieList.put(movie);
+                }
+                break;
+            }
+        }
+        response.put("movie",movieList);
+
+
         long delay = System.currentTimeMillis() - start;
 
         logger.info("Backend API Requested Time : {} ms",delay);
 
         response.put("delay(ms)",delay);
-        JSONArray movieList= new JSONArray();
-        if( jsonObject.has("d")){
-            JSONArray array= (JSONArray) jsonObject.get("d");
-            for(Object o: array){
-                if ( o instanceof JSONObject ) {
-                    JSONObject object = (JSONObject) o;
 
-
-//                    Movie movie = new Movie(
-//                            (String) object.get("l"),
-//                            object.has("y") ?  object.get("y").toString() : "-",
-//                            object.has("rank") ?  object.get("rank").toString() : "-",
-//                            (String) object.get("id"),
-//                            object.has("i") ?  (String)object.getJSONObject("i").get("imageUrl") : "-",
-//                            object.has("s") ? object.get("s").toString() : "-"
-//                    );
-                    //logger.info(movie.toString());
-                    movieList.put(movie);
-                }
-
-            }
-        }
-        response.put("movie",movieList);
         return response.toMap();
     }
 
