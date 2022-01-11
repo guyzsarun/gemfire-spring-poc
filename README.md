@@ -82,14 +82,26 @@ curl --location --request GET 'localhost:8080/api/movie?name=avatar'
   "movie":
     [
       {
-        "title": "Avatar: The Last Airbender",
-        "year": "2005",
-        "rank": "419",
-        "id": "tt0417299",
-        "poster": "https://m.media-amazon.com/images/M/MV5BODc5YTBhMTItMjhkNi00ZTIxLWI0YjAtNTZmOTY0YjRlZGQ0XkEyXkFqcGdeQXVyODUwNjEzMzg@._V1_.jpg",
+        "id": "tt0499549",
+        "title": "Avatar",
+        "year": "2009",
+        "duration": "162 minutes",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTYwOTEwNjAzMl5BMl5BanBnXkFtZTcwODc5MTUwMw@@._V1_.jpg",
+        "rating": "7.8",
+        "ratingCount": "1173261",
+        "plot": "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+        "cast":
+          [
+            { "originalName": "Sam Worthington", "movieName": "Jake Sully" },
+            { "originalName": "Zoe Saldana", "movieName": "Neytiri" },
+            {
+              "originalName": "Sigourney Weaver",
+              "movieName": "Dr. Grace Augustine",
+            },
+          ],
       },
     ],
-  "delay(ms)": 10,
+  "delay(ms)": 46,
 }
 ```
 
