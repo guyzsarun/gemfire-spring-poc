@@ -46,6 +46,7 @@ public class MovieController {
                     Movie movie=movieService.parseRequest((JSONObject) o);
                     movie.setPlot(movieService.parsePlots(movieService.getPlot(movie.getId())));
 
+                    movie.setRating(movieService.parseRatings(movieService.getRatings(movie.getId())));
 
                     logger.info(movie.toString());
                     movieList.put(movie);

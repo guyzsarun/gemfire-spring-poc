@@ -11,8 +11,7 @@ public class Movie {
     private String duration;
     private String poster;
     private String rating;
-    private String imdbRating;
-    private String[] genres;
+    private String ratingCount;
     private String plot;
 
     public List<Cast> cast;
@@ -70,25 +69,15 @@ public class Movie {
         return rating;
     }
 
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setRating(List<String> rating) {
+        this.rating = rating.get(0);
+        this.ratingCount = rating.get(1);
     }
 
-    public String getImdbRating() {
-        return imdbRating;
+    public String getRatingCount() {
+        return ratingCount;
     }
 
-    public void setImdbRating(String imdbRating) {
-        this.imdbRating = imdbRating;
-    }
-
-    public String[] getGenres() {
-        return genres;
-    }
-
-    public void setGenres(String[] genres) {
-        this.genres = genres;
-    }
 
     public String getPlot() {
         return plot;

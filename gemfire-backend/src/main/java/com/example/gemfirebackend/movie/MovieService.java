@@ -71,6 +71,16 @@ public class MovieService {
         return jsonPlot.getJSONArray("plots").length()!=0? jsonPlot.getJSONArray("plots").getJSONObject(0).get("text").toString() : "";
     }
 
+    public List<String> parseRatings(String ratings){
+        JSONObject jsonRating = new JSONObject(ratings);
+        List<String> rating = new ArrayList<>();
+
+        rating.add(jsonRating.has("rating") ? jsonRating.get("rating").toString() : "-");
+        rating.add(jsonRating.has("ratingCount") ? jsonRating.get("ratingCount").toString() : "-");
+        return rating;
+    }
+
+
     public String requestBuilder(String path,String req,String key){
         String url = "https://imdb8.p.rapidapi.com/title/"+path+"?"+req+"={q}";
 
