@@ -43,7 +43,7 @@ public class MovieService {
         String id = movie.get("id").toString().split("/")[2];
         String title = (String) movie.get("title");
         String year =  movie.has("year") ? movie.get("year").toString() : "-";
-        String duration = movie.has("runningTimeInMinutes")? movie.get("runningTimeInMinutes").toString(): "-";
+        String duration = movie.has("runningTimeInMinutes")? movie.get("runningTimeInMinutes").toString() + " minutes": "-";
         String poster = movie.getJSONObject("image").get("url").toString();
 
 
