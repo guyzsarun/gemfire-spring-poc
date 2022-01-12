@@ -15,7 +15,36 @@
 Clone the repo from Github
 
 ```
-git clone  https://github.com/guyzsarun/gemfire-spring-poc.git
+git clone https://github.com/guyzsarun/gemfire-spring-poc.git
+```
+
+## Usage
+
+### Run using Java Springboot
+
+Update api secret in `application.properties` ( Refer to `example.application.properties` )<br>
+Movie API from [RapidAPI](https://rapidapi.com/apidojo/api/imdb8/)
+
+```
+api.rapid.host=
+api.rapid.key=
+```
+
+### Run using Docker
+
+Update api secret in `gemfire-backend/docker-compose.yaml` then run the following command:
+
+```
+cd gemfire-backend
+docker-compose up
+```
+
+### Run using k8s
+
+Create secret and attach to Kubernetes Cluster (Refer to `example.movie-secret.yaml`) then
+
+```
+kubectl apply -f ./k8s
 ```
 
 ## Starting Gemfire on Kubernetes
@@ -42,23 +71,11 @@ Create Gemfire Cluster
   kubectl apply -n gemfire-cluster -f ./gemfire-cluster
 ```
 
-## Usage
-
-Create storage region
+Create storage region using `gfsh` command
 
 ```sh
 create region --name=movie --type=REPLICATE_HEAP_LRU --entry-idle-time-expiration=3600 --enable-statistics
 ```
-
-Update api secret in `application.properties` ( Refer to `example.application.properties` )<br>
-Movie API from [RapidAPI](https://rapidapi.com/apidojo/api/imdb8/)
-
-```
-api.rapid.host=
-api.rapid.key=
-```
-
-or Create secret and attach to Kubernetes Cluster (Refer to `example.movie-secret.yaml`)
 
 ## API
 
