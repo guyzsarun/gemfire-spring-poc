@@ -129,3 +129,17 @@ Update docker credentials in `ci/settings.yaml`
 ```sh
 fly -t gemfire-spring set-pipeline --pipeline {pipeline-name} --config ./ci/pipeline.yaml -l ./ci/settings.yaml
 ```
+
+## Resources
+
+<img src="https://spring.io/images/spring-logo-9146a4d3298760c2e7e49595184e1975.svg" width="150" >
+
+[Springboot](https://spring.io/)
+
+<img src="https://tanzu.vmware.com/developer/images/icons/icon-tanzu-gemfire.svg" height="70" >
+
+[VMware Tanzu Gemfire](https://tanzu.vmware.com/gemfire)
+
+<img src="https://concourse-ci.org/images/logo-white.svg" height="70" >
+
+[Concourse CI](https://concourse-ci.org/)
