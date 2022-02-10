@@ -32,37 +32,39 @@ public class MovieController {
     })
     public Map<String, Object> getMovie(@RequestParam(value = "name", required = false , defaultValue = "") String name)
     {
+
         long start = System.currentTimeMillis();
-
-        JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
         JSONObject response = new JSONObject();
+        JSONArray movieList = new JSONArray();
+        try {
 
-        JSONArray movieList= new JSONArray();
-        if( jsonObject.has("results")){
-            JSONArray array= (JSONArray) jsonObject.get("results");
-            for(Object o: array){
-                if ( o instanceof JSONObject ) {
+            JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
 
-                    Movie movie=movieService.parseRequest((JSONObject) o);
-                    movie.setPlot(movieService.parsePlots(movieService.getPlot(movie.getId())));
+            if (jsonObject.has("results")) {
+                JSONArray array = (JSONArray) jsonObject.get("results");
+                for (Object o : array) {
+                    if (o instanceof JSONObject) {
 
-                    movie.setRating(movieService.parseRatings(movieService.getRatings(movie.getId())));
+                        Movie movie = movieService.parseRequest((JSONObject) o);
+                        movie.setPlot(movieService.parsePlots(movieService.getPlot(movie.getId())));
 
-                    logger.info(movie.toString());
-                    movieList.put(movie);
+                        movie.setRating(movieService.parseRatings(movieService.getRatings(movie.getId())));
+
+                        logger.info(movie.toString());
+                        movieList.put(movie);
+                    }
+                    break;
                 }
-                break;
             }
+            response.put("movie", movieList);
+            }
+        catch (Exception e){
+            response.put("movie",movieList);
         }
-        response.put("movie",movieList);
-
-
         long delay = System.currentTimeMillis() - start;
+        logger.info("Backend API Requested Time : {} ms", delay);
 
-        logger.info("Backend API Requested Time : {} ms",delay);
-
-        response.put("delay(ms)",delay);
-
+        response.put("delay(ms)", delay);
         return response.toMap();
     }
 

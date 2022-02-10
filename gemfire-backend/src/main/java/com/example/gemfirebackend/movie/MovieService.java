@@ -41,7 +41,7 @@ public class MovieService {
 
     public Movie parseRequest(JSONObject movie){
         String id = movie.get("id").toString().split("/")[2];
-        String title = (String) movie.get("title");
+        String title = movie.has("title") ? movie.get("title").toString() : "-";
         String year =  movie.has("year") ? movie.get("year").toString() : "-";
         String duration = movie.has("runningTimeInMinutes")? movie.get("runningTimeInMinutes").toString() + " minutes": "-";
         String poster = movie.getJSONObject("image").get("url").toString();
@@ -55,8 +55,10 @@ public class MovieService {
                 JSONObject cast = (JSONObject) c;
 
                 String originalName=cast.get("name").toString();
-                String movieName=cast.getJSONArray("characters").get(0).toString();
-
+                String movieName="";
+                if (cast.has("characters")){
+                    movieName=cast.getJSONArray("characters").get(0).toString();
+                }
                 casts.add(new Cast(originalName,movieName));
 
             }
