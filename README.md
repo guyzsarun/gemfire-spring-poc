@@ -1,6 +1,6 @@
 # TanzuGemfire-SpringBoot-POC
 
-[CI](http://20.88.163.225:8080/api/v1/teams/main/pipelines/master/badge)
+![CI](http://20.88.163.225:8080/api/v1/teams/main/pipelines/master/badge)
 
 ## Project Structure
 
