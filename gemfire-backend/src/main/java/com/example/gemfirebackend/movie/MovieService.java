@@ -1,6 +1,9 @@
 package com.example.gemfirebackend.movie;
 
 
+import com.example.gemfirebackend.cast.Cast;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.env.Environment;
@@ -11,15 +14,77 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 public class MovieService {
+
     @Autowired
     private Environment env;
 
     @Cacheable("movie")
     public String getAllData(String key) {
-        String url = "https://imdb8.p.rapidapi.com/auto-complete?q={q}";
+        return requestBuilder("find","q",key);
+    }
+
+    @Cacheable("plots")
+    public String getPlot(String key) {
+        return requestBuilder("get-plots", "tconst", key);
+    }
+
+    @Cacheable("ratings")
+    public String getRatings(String key){
+        return requestBuilder("get-ratings","tconst",key);
+    }
+
+    public Movie parseRequest(JSONObject movie){
+        String id = movie.get("id").toString().split("/")[2];
+        String title = movie.has("title") ? movie.get("title").toString() : "-";
+        String year =  movie.has("year") ? movie.get("year").toString() : "-";
+        String duration = movie.has("runningTimeInMinutes")? movie.get("runningTimeInMinutes").toString() + " minutes": "-";
+        String poster = movie.getJSONObject("image").get("url").toString();
+
+
+        JSONArray array= (JSONArray) movie.get("principals");
+        List<Cast> casts= new ArrayList<Cast>();
+
+        for(Object c: array){
+            if ( c instanceof JSONObject ){
+                JSONObject cast = (JSONObject) c;
+
+                String originalName=cast.get("name").toString();
+                String movieName="";
+                if (cast.has("characters")){
+                    movieName=cast.getJSONArray("characters").get(0).toString();
+                }
+                casts.add(new Cast(originalName,movieName));
+
+            }
+        }
+
+        return new Movie(id,title,year,duration,poster,casts);
+    }
+
+    public String parsePlots(String plots){
+        JSONObject jsonPlot = new JSONObject(plots);
+
+        return jsonPlot.getJSONArray("plots").length()!=0? jsonPlot.getJSONArray("plots").getJSONObject(0).get("text").toString() : "";
+    }
+
+    public List<String> parseRatings(String ratings){
+        JSONObject jsonRating = new JSONObject(ratings);
+        List<String> rating = new ArrayList<>();
+
+        rating.add(jsonRating.has("rating") ? jsonRating.get("rating").toString() : "-");
+        rating.add(jsonRating.has("ratingCount") ? jsonRating.get("ratingCount").toString() : "-");
+        return rating;
+    }
+
+
+    public String requestBuilder(String path,String req,String key){
+        String url = "https://imdb8.p.rapidapi.com/title/"+path+"?"+req+"={q}";
 
         HttpHeaders headers = new HttpHeaders();
 
@@ -35,7 +100,7 @@ public class MovieService {
                 request,
                 String.class,
                 key
-                );
+        );
 
         return result.getBody();
     }

@@ -1,5 +1,6 @@
 # TanzuGemfire-SpringBoot-POC
 
+
 ## Project Structure
 
     .
@@ -15,7 +16,36 @@
 Clone the repo from Github
 
 ```
-git clone  https://github.com/guyzsarun/gemfire-spring-poc.git
+git clone https://github.com/guyzsarun/gemfire-spring-poc.git
+```
+
+## Usage
+
+### Run using Java Springboot
+
+Update api secret in `application.properties` ( Refer to `example.application.properties` )<br>
+Movie API from [RapidAPI](https://rapidapi.com/apidojo/api/imdb8/)
+
+```
+api.rapid.host=
+api.rapid.key=
+```
+
+### Run using Docker
+
+Update api secret in `gemfire-backend/docker-compose.yaml` then run the following command:
+
+```
+cd gemfire-backend
+docker-compose up
+```
+
+### Run using k8s
+
+Create secret and attach to Kubernetes Cluster (Refer to `example.movie-secret.yaml`) then
+
+```
+kubectl apply -f ./k8s
 ```
 
 ## Starting Gemfire on Kubernetes
@@ -42,23 +72,11 @@ Create Gemfire Cluster
   kubectl apply -n gemfire-cluster -f ./gemfire-cluster
 ```
 
-## Usage
-
-Create storage region
+Create storage region using `gfsh` command
 
 ```sh
 create region --name=movie --type=REPLICATE_HEAP_LRU --entry-idle-time-expiration=3600 --enable-statistics
 ```
-
-Update api secret in `application.properties` ( Refer to `example.application.properties` )<br>
-Movie API from [RapidAPI](https://rapidapi.com/apidojo/api/imdb8/)
-
-```
-api.rapid.host=
-api.rapid.key=
-```
-
-or Create secret and attach to Kubernetes Cluster (Refer to `example.movie-secret.yaml`)
 
 ## API
 
@@ -82,14 +100,26 @@ curl --location --request GET 'localhost:8080/api/movie?name=avatar'
   "movie":
     [
       {
-        "title": "Avatar: The Last Airbender",
-        "year": "2005",
-        "rank": "419",
-        "id": "tt0417299",
-        "poster": "https://m.media-amazon.com/images/M/MV5BODc5YTBhMTItMjhkNi00ZTIxLWI0YjAtNTZmOTY0YjRlZGQ0XkEyXkFqcGdeQXVyODUwNjEzMzg@._V1_.jpg",
+        "id": "tt0499549",
+        "title": "Avatar",
+        "year": "2009",
+        "duration": "162 minutes",
+        "poster": "https://m.media-amazon.com/images/M/MV5BMTYwOTEwNjAzMl5BMl5BanBnXkFtZTcwODc5MTUwMw@@._V1_.jpg",
+        "rating": "7.8",
+        "ratingCount": "1173261",
+        "plot": "A paraplegic Marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders and protecting the world he feels is his home.",
+        "cast":
+          [
+            { "originalName": "Sam Worthington", "movieName": "Jake Sully" },
+            { "originalName": "Zoe Saldana", "movieName": "Neytiri" },
+            {
+              "originalName": "Sigourney Weaver",
+              "movieName": "Dr. Grace Augustine",
+            },
+          ],
       },
     ],
-  "delay(ms)": 10,
+  "delay(ms)": 46,
 }
 ```
 
@@ -100,3 +130,17 @@ Update docker credentials in `ci/settings.yaml`
 ```sh
 fly -t gemfire-spring set-pipeline --pipeline {pipeline-name} --config ./ci/pipeline.yaml -l ./ci/settings.yaml
 ```
+
+## Resources
+
+<img src="https://spring.io/images/spring-logo-9146a4d3298760c2e7e49595184e1975.svg" width="150" >
+
+[Springboot](https://spring.io/)
+
+<img src="https://tanzu.vmware.com/developer/images/icons/icon-tanzu-gemfire.svg" height="70" >
+
+[VMware Tanzu Gemfire](https://tanzu.vmware.com/gemfire)
+
+<img src="https://concourse-ci.org/images/logo-white.svg" height="70" >
+
+[Concourse CI](https://concourse-ci.org/)

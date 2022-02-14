@@ -1,6 +1,5 @@
 package com.example.gemfirebackend.movie;
 
-
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,13 +9,11 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,39 +32,39 @@ public class MovieController {
     })
     public Map<String, Object> getMovie(@RequestParam(value = "name", required = false , defaultValue = "") String name)
     {
+
         long start = System.currentTimeMillis();
-
-        JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
         JSONObject response = new JSONObject();
+        JSONArray movieList = new JSONArray();
+        try {
 
-        long delay = System.currentTimeMillis() - start;
+            JSONObject jsonObject = new JSONObject(movieService.getAllData(name));
 
-        logger.info("Backend API Requested Time : {} ms",delay);
+            if (jsonObject.has("results")) {
+                JSONArray array = (JSONArray) jsonObject.get("results");
+                for (Object o : array) {
+                    if (o instanceof JSONObject) {
 
-        response.put("delay(ms)",delay);
-        JSONArray movieList= new JSONArray();
-        if( jsonObject.has("d")){
-            JSONArray array= (JSONArray) jsonObject.get("d");
-            for(Object o: array){
-                if ( o instanceof JSONObject ) {
-                    JSONObject object = (JSONObject) o;
+                        Movie movie = movieService.parseRequest((JSONObject) o);
+                        movie.setPlot(movieService.parsePlots(movieService.getPlot(movie.getId())));
 
+                        movie.setRating(movieService.parseRatings(movieService.getRatings(movie.getId())));
 
-                    Movie movie = new Movie(
-                            (String) object.get("l"),
-                            object.has("y") ?  object.get("y").toString() : "-",
-                            object.has("rank") ?  object.get("rank").toString() : "-",
-                            (String) object.get("id"),
-                            object.has("i") ?  (String)object.getJSONObject("i").get("imageUrl") : "-",
-                            object.has("s") ? object.get("s").toString() : "-"
-                    );
-                    //logger.info(movie.toString());
-                    movieList.put(movie);
+                        logger.info(movie.toString());
+                        movieList.put(movie);
+                    }
+                    break;
                 }
-
             }
+            response.put("movie", movieList);
+            }
+        catch (Exception e){
+            response.put("movie",movieList);
         }
-        response.put("movie",movieList);
+        long delay = System.currentTimeMillis() - start;
+        logger.info("Backend API Requested Time : {} ms", delay);
+
+        response.put("delay(ms)", delay);
         return response.toMap();
     }
 

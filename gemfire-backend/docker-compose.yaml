@@ -1,0 +1,11 @@
+version: "3.9"
+services:
+  gemfire-backend:
+    image: guyzsarun/gemfire-springboot:latest
+    pull_policy: always
+    ports:
+      - 8080:8080
+    environment:
+      SPRINGDOC_SWAGGER-UI_PATH : "/docs.html"
+      API_RAPID_HOST:
+      API_RAPID_KEY:

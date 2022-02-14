@@ -1,62 +1,110 @@
 package com.example.gemfirebackend.movie;
 
-import org.springframework.beans.factory.annotation.Value;
+import com.example.gemfirebackend.cast.Cast;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Movie {
+    private String id;
     private String title;
     private String year;
-    private String rank;
-    private String id;
+    private String duration;
     private String poster;
+    private String rating;
+    private String ratingCount;
+    private String plot;
 
-    private String[] actor;
+    public List<Cast> cast;
 
-    public Movie(String title,String year,String rank,String id,String poster,String actor){
+    public Movie(String id,String title,String year,String duration,String poster,List<Cast> cast ){
         this.id=id;
-        this.rank=rank;
         this.title=title;
         this.year=year;
+        this.duration=duration;
         this.poster=poster;
-        this.actor= Arrays.stream(actor.split(","))
-                .map(String::trim)
-                .toArray(String[]::new);
+        this.cast=cast;
     }
 
+    public String getId(){
+        return this.id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public String getPoster() {
-        return poster;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getYear() {
         return year;
     }
 
-    public String getRank() {
-        return rank;
+    public void setYear(String year) {
+        this.year = year;
     }
 
-    public String getId() {
-        return id;
+    public String getDuration() {
+        return duration;
     }
 
-    public String[] getActor(){return actor;}
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(List<String> rating) {
+        this.rating = rating.get(0);
+        this.ratingCount = rating.get(1);
+    }
+
+    public String getRatingCount() {
+        return ratingCount;
+    }
+
+
+    public String getPlot() {
+        return plot;
+    }
+
+    public List<Cast> getCast() {
+        return cast;
+    }
+
+    public void setCast(List<Cast> cast) {
+        this.cast = cast;
+    }
+
+    public void setPlot(String plot) {
+        this.plot = plot;
+    }
 
     @Override
     public String toString() {
         return "Movie{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", actor='" + actor + '\n' +
-                ", rank='" + rank + '\'' +
+                "id=" + id + '\n' +
+                ", title=" + title  + '\n' +
+                ", duration=" + duration + '\n' +
                 ", year=" + year + '\n' +
-                ", poster=" + poster +
-                '}';
+                ", poster=" + poster + '\n' +
+                ", plot=" + plot + '\n' +
+                ", cast=" + cast +
+                '}' + '\n';
     }
 }
