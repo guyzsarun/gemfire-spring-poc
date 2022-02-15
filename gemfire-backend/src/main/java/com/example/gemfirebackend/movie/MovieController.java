@@ -22,6 +22,8 @@ import java.util.Map;
 public class MovieController {
     Logger logger = LoggerFactory.getLogger(MovieController.class);
 
+    int limit = 2;
+
     @Autowired
     MovieService movieService;
 
@@ -42,18 +44,24 @@ public class MovieController {
 
             if (jsonObject.has("results")) {
                 JSONArray array = (JSONArray) jsonObject.get("results");
+                int i=0;
                 for (Object o : array) {
                     if (o instanceof JSONObject) {
 
                         Movie movie = movieService.parseRequest((JSONObject) o);
+
                         movie.setPlot(movieService.parsePlots(movieService.getPlot(movie.getId())));
 
                         movie.setRating(movieService.parseRatings(movieService.getRatings(movie.getId())));
 
                         logger.info(movie.toString());
                         movieList.put(movie);
+
+                        i++;
+                        if (i > limit) {
+                            break;
+                        }
                     }
-                    break;
                 }
             }
             response.put("movie", movieList);
