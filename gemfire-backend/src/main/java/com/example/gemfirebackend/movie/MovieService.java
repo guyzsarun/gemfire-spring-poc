@@ -47,7 +47,7 @@ public class MovieService {
         String poster = movie.getJSONObject("image").get("url").toString();
 
 
-        JSONArray array= (JSONArray) movie.get("principals");
+        JSONArray array= movie.has("principals") ? (JSONArray) movie.get("principals"):new JSONArray() ;
         List<Cast> casts= new ArrayList<Cast>();
 
         for(Object c: array){
